@@ -10,12 +10,4 @@ const dbConnection = async (URI) => {
 
 };
 
-// mongoose.connection.on('connected', () => {
-//     console.log('Connected to the database');
-// });
-
-// mongoose.connection.on('error', () => {
-//     console.log('Could not connect to the database');
-// });
-
 module.exports = dbConnection;
