@@ -1,9 +1,14 @@
+const bcrypt = require('bcrypt');
 const {getUser, createUser} = require('../services/UserService');
-
+const createToken = require('../utils/Token');
 
 const register = async (req, res) => {
     try {
-        const user = await createUser(req.body);
+        const {email, name, password, phone} = req.body;
+        const salt = await bcrypt.genSalt(10);
+        const hashPass = await bcrypt.hash(password, salt);
+
+        const user = await createUser({email, name, password: hashPass, phone});
         return res.json(user).status(201);
     } 
     catch(error) {
@@ -20,11 +25,15 @@ const login = async (req,res) => {
             return res.status(404).json({message: 'User not found'});
         }
 
-        if(user.password !== password) {
+        const condition = await bcrypt.compare(password, user.password);
+
+        if(!condition) {
             return res.status(401).json({message: 'Incorrect Pass'});
         }
 
-        return res.status(200).json({message: 'Login'});
+        const token = await createToken(user._id);
+
+        return res.status(200).json({token});
 
     } 
     catch (error) {
