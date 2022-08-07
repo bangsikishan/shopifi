@@ -3,16 +3,18 @@ const {getUser, createUser} = require('../services/UserService');
 const createToken = require('../utils/Token');
 
 const register = async (req, res) => {
+    console.log(req.body);
     try {
         const {email, name, password, phone} = req.body;
         const salt = await bcrypt.genSalt(10);
         const hashPass = await bcrypt.hash(password, salt);
 
         const user = await createUser({email, name, password: hashPass, phone});
+        console.log(user);
         return res.json(user).status(201);
     } 
-    catch(error) {
-        console.log(error);
+    catch(err) {
+        return res.json({error:err.message});
     }
 }
 
