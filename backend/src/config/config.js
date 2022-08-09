@@ -1,9 +1,10 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 
-const config = {
+const configuration = {
     PORT: process.env.PORT,
     URI: process.env.URI,
 
 };
 
-module.exports = config;
+module.exports = configuration;
