@@ -4,7 +4,7 @@ const userSchema = {
     registerUser: Joi.object({
         name: Joi.string().min(3).max(40).required(),
         email: Joi.string().email().min(10).max(50).required(),
-        phone: Joi.number().min(10).required(),
+        phone: Joi.string().min(10).required(),
         password: Joi.string().alphanum().min(8).max(50).required(),
     }),
     loginUser: Joi.object({
