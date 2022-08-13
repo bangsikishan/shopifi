@@ -1,30 +1,25 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
 import styles from './Login.module.css';
+import {UserContext} from '../context/userContext';
+import useLogin from '../hooks/useLogin';
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const {login} = useLogin();
+    const {dispatch} = useContext(UserContext);
 
-    const handleSubmit = (e)=>{
+    const handleSubmit = async(e)=>{
         e.preventDefault();
         const user = {email, password};
-
-        axios.post('',user,{
-            headers:{
-                "Content-Type": "application/json"
-            }
+        const res = await login(user);
+        dispatch({
+            type: "ADD_USER",
+            payload: res.data
         })
-        .then((res)=>{
-            navigate('/');
-        })
-        .catch((err)=>{
-            console.log(err.message);
-        })
-
+        localStorage.setItem("user", JSON.stringify(res.data));
     }
 
     return (

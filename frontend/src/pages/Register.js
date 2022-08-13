@@ -1,8 +1,7 @@
-import { useState,useContext } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useRegister from '../hooks/useRegister';
 import styles from './Register.module.css';
-import { UserContext } from '../context/userContext';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -11,18 +10,17 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const { register, error } = useRegister();
-    const {dispatch} = useContext(UserContext);
 
     const handleSubmit = async(e) => {
         e.preventDefault();
         const user = { name, email, phone, password };
 
         const user1 = await register(user);
-        dispatch({
-            type: "ADD_USER",
-            payload: user1.data
-        })
-        localStorage.setItem("user",JSON.stringify(user1.data));
+        console.log(user1);
+        if(user1.status === 200){
+            navigate('/login');
+        }
+
     };
 
     const check = ()=>{

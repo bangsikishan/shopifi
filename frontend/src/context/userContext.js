@@ -6,11 +6,11 @@ const userReducer = (state, action)=>{
     switch (action.type) {
         case "ADD_USER":
             return {user: action.payload}
-            break;
-        
+        case "LOGOUT":
+            return {user: null}   
         default:
             return state;
-            break;
+        
     }
 }
 const UserContextProvider = ({children}) => {
@@ -25,9 +25,8 @@ const UserContextProvider = ({children}) => {
             })
         }
     },[])
-    console.log(state);
     return ( 
-        <UserContext.Provider value={{...state,dispatch}}>
+        <UserContext.Provider value={{...state, dispatch}}>
             {children}
         </UserContext.Provider>
     );

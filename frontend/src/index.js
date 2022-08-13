@@ -7,8 +7,6 @@ import UserContextProvider from './context/userContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <UserContextProvider>
-  <React.StrictMode>
     <App />
-  </React.StrictMode>
   </UserContextProvider>
 );
